@@ -94,7 +94,7 @@ contract wallet_saver_queue {
 
     function revert_all_txns() public _is_owner {
         for (uint8 i; i < block_time_startes.length; i++) {
-            block_time_startes[i] = 99999999999999999999999999999999;
+            block_time_startes[i] = 0;
             tx_content_hashes[i] = bytes32(0);
         }
     }
@@ -110,7 +110,7 @@ contract wallet_saver_queue {
                 keccak256(abi.encodePacked(_to, _value, _data)) ==
                 tx_content_hashes[i]
             ) {
-                block_time_startes[i] = 99999999999999999999999999999999;
+                block_time_startes[i] = 0;
                 tx_content_hashes[i] = bytes32(0);
                 found_something = true;
             }

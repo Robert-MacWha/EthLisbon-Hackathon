@@ -15,6 +15,7 @@ describe("lol testing it... Not much more of a descriptive name :P", function ()
 
     before(async function () {
         [deployer, user2, user3] = await ethers.getSigners();
+        // console.log(deployer)
 
         const wallet_saver = await ethers.getContractFactory("wallet_saver_queue");
         wallet_saverContract = await wallet_saver.deploy(100, deployer.address, []);
@@ -27,6 +28,8 @@ describe("lol testing it... Not much more of a descriptive name :P", function ()
     describe("testing all basic functions", function () {
 
         it("testing panic", async function () {
+            console.log("fjioajfiojsiodsj")
+            console.log(await wallet_saverContract.block_time_startes())
             await deployer.sendTransaction({
                 to: wallet_saverContract.address,
                 value: ethers.utils.parseEther("1") // 1 ether

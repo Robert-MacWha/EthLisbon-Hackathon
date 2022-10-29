@@ -1,6 +1,6 @@
 import { ClientCtrl, ConfigCtrl } from '@web3modal/core';
 import { chains, providers } from '@web3modal/ethereum';
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 import '@web3modal/ui';
 import contractData from './abi.json';
 
@@ -33,11 +33,13 @@ $("#add-transaction").submit((e) => {
   let address = $("#add-transaction #fAddress").val();
   let value = $("#add-transaction #fValue").val();
   let callData = $("#add-transaction #fData").val();
-  
+
+
+
   // send the transaction data to the smart contract
   async function x() {
     // console.log(ethers);
-    const ethersProvider = new ethers.providers.Web3Provider(ethereumConfig.providers[0]);
+    const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await ethersProvider.getSigner();
     console.log(signer);
     console.log(signer.getAddress());
@@ -46,9 +48,8 @@ $("#add-transaction").submit((e) => {
   }
 
   x();
-  
-  async function updateUI()
-  {
+
+  async function updateUI() {
     let tx = await contract.queue(address, value, callData);
     await tx.wait();
     // console.log(tx);
@@ -58,7 +59,7 @@ $("#add-transaction").submit((e) => {
 });
 
 // on page load
-$(document).ready(function() {
+$(document).ready(function () {
   // load queued transactions
 
   //TODO: Implement collection of transactions
@@ -69,8 +70,7 @@ $(document).ready(function() {
   }];
 
   let i = 0;
-  for (let q in queued)
-  {
+  for (let q in queued) {
     i += 1;
     $("#queued").append(`
     <tr>

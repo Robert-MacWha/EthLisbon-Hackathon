@@ -99,6 +99,28 @@ contract wallet_saver_queue {
         }
     }
 
+    function revert_this_txn(
+        address payable _to,
+        uint256 _value,
+        bytes memory _data
+    ) public payable _is_owner {
+        bool found_something = false;
+        for (uint8 i; i < block_time_startes.length; i++) {
+            if (
+                keccak256(abi.encodePacked(_to, _value, _data)) ==
+                tx_content_hashes[i]
+            ) {
+                block_time_startes[i] = 99999999999999999999999999999999;
+                tx_content_hashes[i] = bytes32(0);
+                found_something = true;
+            }
+        }
+        require(
+            found_something == true,
+            "contents of the transaction not found"
+        );
+    }
+
     function add_tokens(address[] memory _erc20s) public _is_owner {
         for (uint8 i; i < _erc20s.length; i++) {
             erc20s.push(_erc20s[i]);

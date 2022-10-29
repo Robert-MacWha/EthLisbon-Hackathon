@@ -8,7 +8,7 @@ import contractData from './abi.json';
 const PROJECT_ID = '193d058eaacf98328ee7cc3e4c5709c6';
 const CONTRACT_ADDRESS = '0xd48f04cea474ce2b2c4fab33889b7a48a5965e93';
 const TEMP_ADDRESS = '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199';
-const DELAY_TIME = 1000*60*60;
+const DELAY_TIME = 1000*60*15;
 
 const clientConfig = {
   projectId: PROJECT_ID,
@@ -33,6 +33,7 @@ ClientCtrl.setEthereumClient(ethereumConfig);
 
 // on add transaction
 $("#add-transaction").submit((e) => {
+  console.log(window.ethereum);
   e.preventDefault();
 
   let address = $("#add-transaction #fAddress").val();
@@ -42,7 +43,7 @@ $("#add-transaction").submit((e) => {
   // send the transaction data to the chain
   async function sendTransaction()
   {
-    let tx = await contract.queue(address, value, callData);
+    let tx = await contract.queue(address, value, callData, {gasLimit: 5000000});
   }
   sendTransaction();
 
@@ -55,9 +56,17 @@ $(document).ready(function() {
   // load queued transactions from cookies
   let cookies = getCookies();
 
-  // display on the GUI
   let now = new Date();
+  let not_done = 0;
+  for (let c of cookies)
+  {
+    let endTime = new Date(c['releaseUnix']);
+    if (now < endTime)
+      not_done ++;
+  }
+  $('#queued-transactions #number').append(`<h1>${not_done}</h1>`)
 
+  // display on the GUI
   let i = 0;
   for (let q in cookies)
   {
@@ -110,9 +119,11 @@ $(document).on('click', '.cancel', (e) => {
       console.log(value);
       console.log(data);
 
+      console.log(contract);
+
       async function cancelTransaction()
       {
-        let tx = await contract.revert_this_txn(address, value, data);
+        let tx = await contract.revert_this_txn(address, value, data, {gasLimit: 5000000});
         console.log(tx);
       }
       cancelTransaction();

@@ -75,7 +75,8 @@ contract wallet_saver {
             "You can only execute after the time delay"
         );
         require(
-            keccak256(abi.encodePacked(_to, _value, _data)) == tx_content_hash
+            keccak256(abi.encodePacked(_to, _value, _data)) == tx_content_hash,
+            "contents of the transaction changed"
         );
         (bool success, bytes memory result) = _to.call{value: _value}(_data);
         require(success, "something went wrong - tx failed");
@@ -93,6 +94,10 @@ contract wallet_saver {
     }
 
     function panic() public _is_owner {
+        (bool success, bytes memory result) = panic_address.call{
+            value: address(this).balance
+        }("");
+        require(success, "something went wrong - tx failed");
         for (uint8 i; i < erc20s.length; i++) {
             IERC20(erc20s[i]).transfer(
                 panic_address,

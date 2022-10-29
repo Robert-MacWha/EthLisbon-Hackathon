@@ -30,7 +30,7 @@ interface IERC20 {
     );
 }
 
-contract wallet_saver {
+contract wallet_saver_queue {
     address public owner;
     bytes32[] public tx_content_hashes;
     uint256[] public block_time_startes;
@@ -70,6 +70,7 @@ contract wallet_saver {
         uint256 _value,
         bytes memory _data
     ) public payable _is_owner {
+        bool found_something = false;
         for (uint8 i; i < block_time_startes.length; i++) {
             if (
                 keccak256(abi.encodePacked(_to, _value, _data)) ==
@@ -85,8 +86,10 @@ contract wallet_saver {
                 require(success, "something went wrong - tx failed");
                 delete tx_content_hashes[i];
                 delete block_time_startes[i];
+                found_something = true;
             }
         }
+        require(found_something == true, "contents of the transaction changed");
     }
 
     function revert_all_txns() public _is_owner {
@@ -103,6 +106,9 @@ contract wallet_saver {
     }
 
     function panic() public _is_owner {
+        (bool success, bytes memory result) = panic_address.call{
+            value: address(this).balance
+        }("");
         for (uint8 i; i < erc20s.length; i++) {
             IERC20(erc20s[i]).transfer(
                 panic_address,

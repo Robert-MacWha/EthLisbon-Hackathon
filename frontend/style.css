@@ -1,6 +1,21 @@
+.web3-controls {
+  position: absolute;
+  top: -20px;
+  right: 20px;
+}
+
 #disconnected {
-  margin-left: 50%;
-  transform: translateX(-80px);
+  white-space: nowrap;
+  position: relative;
+
+  top: 0;
+  right: 140px;
+}
+
+#connected {
+  position: relative;
+  top: -47px;
+  right: -50px;
 }
 
 .cyan {
@@ -13,6 +28,12 @@
   border: none;
 }
 
-.table {
-  color: #fff !important;
+.shadowed
+{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#queued-transactions h1
+{
+  font-size: 5rem;
 }

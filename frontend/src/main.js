@@ -1,6 +1,6 @@
 import { ClientCtrl, ConfigCtrl } from '@web3modal/core';
 import { chains, providers } from '@web3modal/ethereum';
-import { ethers } from 'ethers';
+import {ethers} from 'ethers';
 import '@web3modal/ui';
 import contractData from './abi.json';
 
@@ -8,6 +8,7 @@ import contractData from './abi.json';
 const PROJECT_ID = '193d058eaacf98328ee7cc3e4c5709c6';
 const CONTRACT_ADDRESS = '0xd48f04cea474ce2b2c4fab33889b7a48a5965e93';
 const TEMP_ADDRESS = '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199';
+const DELAY_TIME = 1000*60*60;
 
 const clientConfig = {
   projectId: PROJECT_ID,
@@ -22,6 +23,10 @@ const ethereumConfig = {
   providers: [providers.walletConnectProvider({ projectId: PROJECT_ID })]
 }
 
+const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = ethersProvider.getSigner();
+const contract = new ethers.Contract(CONTRACT_ADDRESS, contractData.abi, signer);
+
 // Set up core and ethereum clients
 ConfigCtrl.setConfig(clientConfig);
 ClientCtrl.setEthereumClient(ethereumConfig);
@@ -33,54 +38,112 @@ $("#add-transaction").submit((e) => {
   let address = $("#add-transaction #fAddress").val();
   let value = $("#add-transaction #fValue").val();
   let callData = $("#add-transaction #fData").val();
-
-
-
-  // send the transaction data to the smart contract
-  async function x() {
-    // console.log(ethers);
-    const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await ethersProvider.getSigner();
-    console.log(signer);
-    console.log(signer.getAddress());
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, contractData.abi, signer);
-    console.log(contract);
-  }
-
-  x();
-
-  async function updateUI() {
+  
+  // send the transaction data to the chain
+  async function sendTransaction()
+  {
     let tx = await contract.queue(address, value, callData);
-    await tx.wait();
-    // console.log(tx);
   }
+  sendTransaction();
 
-  updateUI();
+  // store the transaction data as a cookie
+  document.cookie =`${Date.now()}={"address": "${address}", "value": "${value}", "callData": "${callData}"}`;
 });
 
 // on page load
-$(document).ready(function () {
-  // load queued transactions
+$(document).ready(function() {
+  // load queued transactions from cookies
+  let cookies = getCookies();
 
-  //TODO: Implement collection of transactions
-  let queued = [{
-    'releaseDate': '6h 23m',
-    'value': '100 ETH',
-    'address': '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
-  }];
+  // display on the GUI
+  let now = new Date();
 
   let i = 0;
-  for (let q in queued) {
+  for (let q in cookies)
+  {
     i += 1;
-    $("#queued").append(`
-    <tr>
-      <th>${i}</th>
-      <th>${queued[q]['releaseDate']}</th>
-      <th>${queued[q]['value']}</th>
-      <th>${queued[q]['address']}</th>
-    </tr>
-    `);
+    let endTime = new Date(cookies[q]['releaseUnix']);
 
-    console.log(q);
+    if (endTime < now)
+    {
+      $("#queued").append(`
+      <tr class='complete'>
+        <th>${i}</th>
+        <th>${cookies[q]['releaseDate']}</th>
+        <th>${cookies[q]['value']}</th>
+        <th>${cookies[q]['address']}</th>
+        <th></th>
+      </tr>
+      `);
+    }
+    else
+    {
+      $("#queued").append(`
+      <tr class='incomplete'>
+        <th>${i}</th>
+        <th>${cookies[q]['releaseDate']}</th>
+        <th>${cookies[q]['value']}</th>
+        <th>${cookies[q]['address']}</th>
+        <th><button class="cancel btn btn-danger", id="${cookies[q]['releaseUnix']}">X</button></th>
+      </tr>
+      `);
+    }
   }
-})
+});
+
+$(document).on('click', '.cancel', (e) => {
+  let x = e.currentTarget;
+
+  let id = $(x).attr('id');
+  console.log(id);
+
+  let cookies = getCookies();
+  for (let c in cookies)
+  {
+    if (cookies[c]['releaseUnix'] == id)
+    {
+      let address = cookies[c]['address'];
+      let value = cookies[c]['value'];
+      let data = cookies[c]['callData'];
+
+      console.log(address);
+      console.log(value);
+      console.log(data);
+
+      async function cancelTransaction()
+      {
+        let tx = await contract.revert_this_txn(address, value, data);
+        console.log(tx);
+      }
+      cancelTransaction();
+    }
+  }
+});
+
+function getCookies()
+{
+  let pairs = document.cookie.split(';');
+  let cookies = []
+  for (let i = 0; i < pairs.length; i ++)
+  {
+    let pair = pairs[i].split('=');
+    let data = JSON.parse(pair[1]);
+
+    if (pair[1].includes(', "value": '))
+    {
+      // assume the cookie was a transaction
+      let date = new Date(parseInt(pair[0]) + DELAY_TIME);
+      let endTime = date.toLocaleTimeString("en-US");
+      cookies.push({
+        'releaseDate': endTime,
+        'releaseUnix': date,
+        'value': data['value'],
+        'address': data['address'],
+        'callData': pair[0]
+      })
+    }
+  }
+
+  cookies.sort((a, b) => (a['releaseUnix'] > b['releaseUnix']) ? -1 : 1);
+  return cookies;
+}

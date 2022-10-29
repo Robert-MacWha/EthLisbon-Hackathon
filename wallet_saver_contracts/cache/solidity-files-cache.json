@@ -668,8 +668,8 @@
       ]
     },
     "/Users/dicksonwu/Documents/GitHub/EthLisbon-Hackathon/wallet_saver_contracts/contracts/wallet_saver_list_queue.sol": {
-      "lastModificationDate": 1667071550088,
-      "contentHash": "cd3fc950eb4ea6265d1a1095cb83c9e0",
+      "lastModificationDate": 1667080596723,
+      "contentHash": "bc96b0e920355d2a960204d6d46670ea",
       "sourceName": "contracts/wallet_saver_list_queue.sol",
       "solcConfig": {
         "version": "0.8.0",

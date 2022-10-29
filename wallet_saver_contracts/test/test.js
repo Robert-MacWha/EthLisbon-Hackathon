@@ -129,6 +129,11 @@ describe("lol testing it... Not much more of a descriptive name :P", function ()
 
             await expect(wallet_saverContract.execute_call(user2.address, ethers.utils.parseEther("1"), utf8Encode.encode("0x"))).to.be.reverted;
         });
+
+        it("testing is_owner", async function () {
+
+            await expect(wallet_saverContract.connect(user2).queue(user2.address, ethers.utils.parseEther("1"), utf8Encode.encode("0x"))).to.be.reverted;
+        });
     })
 
 })

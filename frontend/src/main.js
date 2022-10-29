@@ -1,11 +1,13 @@
 import { ClientCtrl, ConfigCtrl } from '@web3modal/core';
 import { chains, providers } from '@web3modal/ethereum';
-import { ethers } from "ethers";
+import {ethers} from 'ethers';
 import '@web3modal/ui';
 import contractData from './abi.json';
 
 // Define constants
 const PROJECT_ID = '193d058eaacf98328ee7cc3e4c5709c6';
+const CONTRACT_ADDRESS = '0xd48f04cea474ce2b2c4fab33889b7a48a5965e93';
+const TEMP_ADDRESS = '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199';
 
 const clientConfig = {
   projectId: PROJECT_ID,
@@ -16,7 +18,7 @@ const clientConfig = {
 const ethereumConfig = {
   appName: 'web3Modal',
   autoConnect: true,
-  chains: [chains.mainnet],
+  chains: [chains.localhost],
   providers: [providers.walletConnectProvider({ projectId: PROJECT_ID })]
 }
 
@@ -26,20 +28,33 @@ ClientCtrl.setEthereumClient(ethereumConfig);
 
 // on add transaction
 $("#add-transaction").submit((e) => {
-  
   e.preventDefault();
 
   let address = $("#add-transaction #fAddress").val();
   let value = $("#add-transaction #fValue").val();
   let callData = $("#add-transaction #fData").val();
-
-  // send the transaction data to the smart contract
-  const abi = contractData.abi;
   
-  const config = {
-    addressOrName: ''
+  // send the transaction data to the smart contract
+  async function x() {
+    // console.log(ethers);
+    const ethersProvider = new ethers.providers.Web3Provider(ethereumConfig.providers[0]);
+    const signer = await ethersProvider.getSigner();
+    console.log(signer);
+    console.log(signer.getAddress());
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, contractData.abi, signer);
+    console.log(contract);
   }
-  console.log(ethereumConfig.providers);
+
+  x();
+  
+  async function updateUI()
+  {
+    let tx = await contract.queue(address, value, callData);
+    await tx.wait();
+    // console.log(tx);
+  }
+
+  updateUI();
 });
 
 // on page load

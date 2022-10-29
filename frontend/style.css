@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 .web3-controls {
   position: absolute;
   top: -20px;

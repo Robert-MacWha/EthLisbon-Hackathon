@@ -1,10 +1,18 @@
-#disconnected
-{
+#disconnected {
   margin-left: 50%;
   transform: translateX(-80px);
 }
 
-.header {
+.cyan {
   background: #00B7EB;
-  position: static;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #00B7EB !important;
+  border: none;
+}
+
+.table {
+  color: #fff !important;
 }

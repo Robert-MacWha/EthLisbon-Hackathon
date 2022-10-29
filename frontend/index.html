@@ -14,7 +14,7 @@
 
     <div id="app">
 
-      <div class="header">
+      <div class="header cyan">
         <div class="text-center container pt-5 pb-5">
           <h1 class="pt-5 text-weight-bold text-light">Solarium</h1>
   
@@ -28,7 +28,48 @@
             <w3m-modal></w3m-modal>
           </div>
         </div>
+      </div>
 
+      <div class="container pt-5 pb-5">
+          <h3 class="mb-4">Add a transaction</h3>
+          <form>
+            <div class="form-group">
+              <label for="fAddress">Target address</label>
+              <input type="text" class="form-control" id="fAddress" placeholder="Address">
+
+            </div>
+
+            <div class="form-group">
+              <label for="fVal">Eth Value</label>
+              <input type="number" class="form-control" id="fVal" placeholder="Value">
+            </div>
+          
+            <div class="form-grou4 mb-3">
+              <label for="fData">Call Data</label>
+              <textarea class="form-control" id="fData" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
+
+      <div class="cyan">
+        <div class="container pt-5 pb-5">
+          <div class="row">
+            <h3>Queued Transaction</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Expected Release Date</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
     </div>

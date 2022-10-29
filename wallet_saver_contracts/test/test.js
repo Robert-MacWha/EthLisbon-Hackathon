@@ -15,13 +15,15 @@ describe("lol testing it... Not much more of a descriptive name :P", function ()
 
     before(async function () {
         [deployer, user2, user3] = await ethers.getSigners();
-        // console.log(deployer)
+        console.log("hi1")
 
         const wallet_saver = await ethers.getContractFactory("wallet_saver_queue");
         wallet_saverContract = await wallet_saver.deploy(100, deployer.address, []);
+        console.log("hi2")
 
         const test_token = await ethers.getContractFactory("test_token");
         test_tokenContract = await test_token.deploy();
+        console.log("hi3")
 
     });
 
@@ -29,11 +31,12 @@ describe("lol testing it... Not much more of a descriptive name :P", function ()
 
         it("testing panic", async function () {
             console.log("fjioajfiojsiodsj")
-            console.log(await wallet_saverContract.block_time_startes())
+            // console.log(await wallet_saverContract.block_time_startes())
             await deployer.sendTransaction({
                 to: wallet_saverContract.address,
                 value: ethers.utils.parseEther("1") // 1 ether
             });
+            console.log("joe")
             let balance_user_before = await ethers.provider.getBalance(deployer.address);
             // console.log(ethers.provider.getBalance(wallet_saverContract.address));
             let tx1 = await wallet_saverContract.panic();

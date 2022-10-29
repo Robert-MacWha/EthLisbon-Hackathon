@@ -1,82 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solarium</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css" />
-    
-  </head>
-  <body>
+<head>
 
-    <div id="app">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarium</title>
 
-      <div class="header cyan">
-        <div class="text-center container pt-5 pb-5">
-          <h1 class="pt-5 text-weight-bold text-light">Solarium</h1>
-  
-          <div class="web3_controls mt-5">
-            <div id="disconnected">
-              <w3m-connect-button></w3m-connect-button>
-            </div>
-            <div id="connected" class="mt-2">
-              <button class="btn btn-light" id="disconnect-btn">Disconnect</button>
-            </div>
-            <w3m-modal></w3m-modal>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+
+  <div id="app">
+
+    <div class="header cyan">
+      <div class="text-center container pt-5 pb-5">
+        <h1 class="pt-5 text-weight-bold text-light">Solarium</h1>
+
+        <div class="web3_controls mt-5">
+          <div id="disconnected">
+            <w3m-connect-button></w3m-connect-button>
           </div>
+          <div id="connected" class="mt-2">
+            <button class="btn btn-light" id="disconnect-btn">Disconnect</button>
+          </div>
+          <w3m-modal></w3m-modal>
         </div>
       </div>
-
-      <div class="container pt-5 pb-5">
-          <h3 class="mb-4">Add a transaction</h3>
-          <form>
-            <div class="form-group">
-              <label for="fAddress">Target address</label>
-              <input type="text" class="form-control" id="fAddress" placeholder="Address">
-
-            </div>
-
-            <div class="form-group">
-              <label for="fVal">Eth Value</label>
-              <input type="number" class="form-control" id="fVal" placeholder="Value">
-            </div>
-          
-            <div class="form-grou4 mb-3">
-              <label for="fData">Call Data</label>
-              <textarea class="form-control" id="fData" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-      </div>
-
-      <div class="cyan">
-        <div class="container pt-5 pb-5">
-          <div class="row">
-            <h3>Queued Transaction</h3>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Expected Release Date</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="src/transactionManager.js"></script>
-    <script type="module" src="src/main.js"></script>
-  
-  </body>
+    <div class="container pt-5 pb-5">
+      <h3 class="mb-4">Add a transaction</h3>
+      <form>
+        <div class="form-group">
+          <label for="fAddress">Target address</label>
+          <input type="text" class="form-control" id="fAddress" placeholder="Address">
+
+        </div>
+
+        <div class="form-group">
+          <label for="fVal">Eth Value</label>
+          <input type="number" class="form-control" id="fVal" placeholder="Value">
+        </div>
+
+        <div class="form-grou4 mb-3">
+          <label for="fData">Call Data</label>
+          <textarea class="form-control" id="fData" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <div class="cyan">
+      <div class="container pt-5 pb-5">
+        <div class="row">
+          <h3>Queued Transaction</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Expected Release Date</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <!-- <script src="src/transactionManager.js"></script> -->
+  <script type="module" src="src/main.js"></script>
+
+</body>
+
 </html>

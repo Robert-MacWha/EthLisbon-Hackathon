@@ -666,6 +666,42 @@
       "artifacts": [
         "Pausable"
       ]
+    },
+    "/Users/dicksonwu/Documents/GitHub/EthLisbon-Hackathon/wallet_saver_contracts/contracts/wallet_saver_list_queue.sol": {
+      "lastModificationDate": 1667058125009,
+      "contentHash": "d4de040c0f8deebe3dcc497dcc02271e",
+      "sourceName": "contracts/wallet_saver_list_queue.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20",
+        "wallet_saver"
+      ]
     }
   }
 }

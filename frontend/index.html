@@ -12,19 +12,24 @@
   </head>
   <body>
 
-    <div class="web3_controls">
-      <div id="disconnected">
-        <w3m-connect-button></w3m-connect-button>
+    <div id="app">
+
+      <div class="header">
+        <div class="text-center container pt-5 pb-5">
+          <h1 class="pt-5 text-weight-bold text-light">Solarium</h1>
+  
+          <div class="web3_controls mt-5">
+            <div id="disconnected">
+              <w3m-connect-button></w3m-connect-button>
+            </div>
+            <div id="connected" class="mt-2">
+              <button class="btn btn-light" id="disconnect-btn">Disconnect</button>
+            </div>
+            <w3m-modal></w3m-modal>
+          </div>
+        </div>
+
       </div>
-
-      <div id="connected">
-        <button id="disconnect-btn">Disconnect</button>
-      </div>
-
-      <w3m-modal></w3m-modal>
-    </div>
-
-    <div id="app" class="container">
 
     </div>
 

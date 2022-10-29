@@ -1,24 +1,22 @@
-.web3_controls
+#disconnected
 {
-  width: fit-content;
-  float: right;
-  margin-top: 20px;
-  margin-right: 20px;
-  margin-left: auto;
+  margin-left: 50%;
+  transform: translateX(-80px);
 }
 
-.container
-{
-  width: 80%;
-  margin: auto;
+.header {
+  background: #00B7EB;
+  position: static;
 }
 
-input.btn-primary
-{
-  margin-right: 30px;
-  margin-top: 20px;
-}
-
-.second {
-  width: 100%;
+.header::before {
+  content: "";
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  transform: rotate(3deg);
+  transform-origin:top;
 }

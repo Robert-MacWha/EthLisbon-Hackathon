@@ -45,15 +45,13 @@ contract wallet_saver_queue {
         _;
     }
 
-    constructor(
-        uint256 _time_delay,
-        address _panic_address,
-        address[] memory _erc20s
-    ) {
+    constructor(uint256 _time_delay, address _panic_address)
+    // address[] memory _erc20s
+    {
         owner = msg.sender;
         time_delay = _time_delay;
         panic_address = _panic_address;
-        erc20s = _erc20s;
+        // erc20s = _erc20s;
     }
 
     function queue(
